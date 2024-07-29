@@ -1,33 +1,36 @@
-"use server";
-
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { cookies } from "next/headers";
 
-import toast from "react-hot-toast";
-
 // This function can be marked `async` if using `await` inside
 export const middleware = async (request: NextRequest) => {
-  const isAuthenticated = await checkAuthentication(request);
+  const cookie = cookies();
+  const jwtToken = cookie.get("jwt")?.value;
+
+  const isAuthenticated = await checkAuthentication(jwtToken);
 
   if (!isAuthenticated) {
-    // Optional: Show a toast notification on redirect (if needed)
-    toast.error("Authentication failed. Redirecting to home.");
+    // Auth failed redirect to home page
     return NextResponse.redirect(new URL("/home", request.url));
   }
 
   return NextResponse.next();
 };
 
-// Function to check authentication
-const checkAuthentication = async (request: NextRequest) => {
+const checkAuthentication = async (jwtToken: any) => {
   const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
 
   try {
+    if (!jwtToken) {
+      console.error("JWT token not found in cookies");
+      return false;
+    }
 
     const response = await fetch(`${baseUrl}/api/auth/authuser`, {
       method: "POST",
-      credentials: "include",
+      headers: {
+        Cookie: `jwt=${jwtToken};`,
+      },
     });
 
     if (!response.ok) {
@@ -44,7 +47,6 @@ const checkAuthentication = async (request: NextRequest) => {
     return true;
   } catch (error: any) {
     console.error("Error checking authentication:", error.message);
-    toast.error("An error occurred while checking authentication.");
     return false;
   }
 };
