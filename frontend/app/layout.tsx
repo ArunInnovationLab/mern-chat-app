@@ -19,11 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        {children}
         <ThemeProvider>
           {children}
-          <Toaster position="top-right" />
         </ThemeProvider>
+        <Toaster position="top-right" />
       </body>
     </html>
   );
