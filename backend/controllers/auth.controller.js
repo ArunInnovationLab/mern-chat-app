@@ -100,7 +100,6 @@ export const logout = (req, res) => {
 export const checkAuth = async (req, res) => {
   try {
     const token = req.cookies.jwt;
-console.log("hhgh", req.cookies);
     if (!token) {
       console.log("You are not logged in")
       return res.status(401).json({ error: "You are not logged in" });
