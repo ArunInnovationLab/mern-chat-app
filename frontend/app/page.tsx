@@ -11,8 +11,7 @@ const Entry = () => {
     //   </Link>
     // </div>
     <div>
-
-      <SignUp/>
+      <SignIn/>
     </div>
   );
 };

@@ -1,10 +1,11 @@
 import bcrypt from "bcryptjs";
 import User from "../model/user.model.js";
+import jwt from "jsonwebtoken";
 import generateTokenAndSetCookie from "../utils/generateToken.js";
 
 export const signup = async (req, res) => {
   try {
-    console.log("req.body: ", req.body);
+    // console.log("req.body: ", req.body);
 
     const { fullName, username, password, confirmPassword, gender } = req.body;
 
@@ -85,9 +86,49 @@ export const login = async (req, res) => {
 export const logout = (req, res) => {
   try {
     res.cookie("jwt", "", { maxAge: 0 });
+
+    //or
+    // res.clearCookie("jwt");
+
     res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
     console.log("Error in logout controller", error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+export const checkAuth = async (req, res) => {
+  try {
+    const token = req.cookies.jwt;
+
+    console.log("req...", req)
+
+    if (!token) {
+      console.log("You are not logged in")
+      return res.status(401).json({ error: "You are not logged in" });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!decoded) {
+      console.log("Unauthorized - Invalid Token")
+      return res.status(401).json({ error: "Unauthorized - Invalid Token" });
+    }
+
+    const user = await User.findById(decoded.userId).select("-password");
+
+    if (!user) {
+      console.log("user not found ")
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    req.user = user;
+    console.log("Authentication successful")
+    return res.status(200).json({ message: "Authentication successful", user });
+  } catch (err) {
+    console.error("Error in checkAuth middleware: ", err.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+

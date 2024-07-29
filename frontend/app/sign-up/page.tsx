@@ -3,14 +3,17 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import Link from "next/link";
+import useSignUp from "@/hooks/useSignUp";
 
 const SignUp = () => {
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [gender, setGender] = useState("male");
-  const router = useRouter();
+  const [gender, setGender] = useState("Male");
+
+  const { loading, signUp } = useSignUp();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,8 +36,15 @@ const SignUp = () => {
       return;
     }
 
-    // Redirect to the desired page after successful validation
-    router.push("/success"); // Update the route as needed
+    const data = {
+      fullName,
+      username: trimmedUsername,
+      password,
+      confirmPassword,
+      gender,
+    };
+
+    signUp({ data: { ...data } });
   };
 
   return (
@@ -124,16 +134,17 @@ const SignUp = () => {
               value={gender}
               onChange={(e) => setGender(e.target.value)}
             >
-              <option value="male">Male</option>
-              <option value="female">Female</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
               <option value="other">Other</option>
             </select>
           </div>
 
           <div className="flex justify-center mb-4">
             <button
+              disabled={loading}
               type="submit"
-              className="font-bold text-white bg-blue-600 hover:bg-blue-700 transition duration-300 rounded-md py-2 px-4"
+              className="font-bold text-white bg-blue-600 hover:bg-blue-700 transition duration-300 rounded-md py-2 px-4 disabled:opacity-50"
             >
               Sign Up
             </button>
@@ -142,9 +153,9 @@ const SignUp = () => {
           <div className="text-center">
             <p>
               Already have an account?{" "}
-              <a href="/sign-in" className="text-blue-600 hover:underline">
+              <Link href="/sign-in" className="text-blue-600 hover:underline">
                 Sign In
-              </a>
+              </Link>
             </p>
           </div>
         </form>

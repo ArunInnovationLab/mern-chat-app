@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import Link from "next/link";
+import useSignIn from "../../hooks/useSignIn";
 
 const SignIn = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter();
+  const { loading, signIn } = useSignIn();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,8 +24,12 @@ const SignIn = () => {
       return;
     }
 
-    // Redirect to the desired page after successful validation
-    router.push("/dashboard"); // Update the route as needed
+    const data = {
+      username: trimmedUsername,
+      password,
+    };
+
+    signIn({ data: { ...data } });
   };
 
   return (
@@ -33,7 +38,10 @@ const SignIn = () => {
         <h2 className="text-3xl font-bold text-center mb-6">Sign In</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="username" className="block text-lg font-medium mb-1">
+            <label
+              htmlFor="username"
+              className="block text-lg font-medium mb-1"
+            >
               Username <span className="text-red-600">*</span>
             </label>
             <input
@@ -48,7 +56,10 @@ const SignIn = () => {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="password" className="block text-lg font-medium mb-1">
+            <label
+              htmlFor="password"
+              className="block text-lg font-medium mb-1"
+            >
               Password <span className="text-red-600">*</span>
             </label>
             <input
@@ -64,8 +75,9 @@ const SignIn = () => {
 
           <div className="flex justify-center mb-4">
             <button
+              disabled={loading}
               type="submit"
-              className="font-bold text-white bg-blue-600 hover:bg-blue-700 transition duration-300 rounded-md py-2 px-4"
+              className="font-bold text-white bg-blue-600 hover:bg-blue-700 transition duration-300 rounded-md py-2 px-4 disabled:opacity-50"
             >
               Sign In
             </button>
@@ -74,9 +86,9 @@ const SignIn = () => {
           <div className="text-center">
             <p>
               Don’t have an account?{" "}
-              <a href="/dashboard" className="text-blue-600 hover:underline">
+              <Link href="/sign-up" className="text-blue-600 hover:underline">
                 Sign Up
-              </a>
+              </Link>
             </p>
           </div>
         </form>
@@ -86,4 +98,3 @@ const SignIn = () => {
 };
 
 export default SignIn;
-
