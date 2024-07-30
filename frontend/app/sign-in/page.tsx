@@ -1,14 +1,21 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import useSignIn from "../../hooks/useSignIn";
+import { ThemeContext } from "@/providers/theme-provider";
 
 const SignIn = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { loading, signIn } = useSignIn();
+
+  const { theme, setTheme } = useContext(ThemeContext) as {
+    theme: "light" | "dark";
+    setTheme: React.Dispatch<React.SetStateAction<"light" | "dark">>;
+  };
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

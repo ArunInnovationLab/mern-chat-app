@@ -30,9 +30,7 @@ const useLogout = () => {
 
       // Notify user of successful logout
       toast.success("You have been logged out.");
-
-      // Redirect to the login page
-      router.push("/sign-in");
+      window.location.href = "/sign-in";
     } catch (error) {
       console.error("Error logging out:", error);
       toast.error("An error occurred. Please try again.");
@@ -40,7 +38,6 @@ const useLogout = () => {
       setLoading(false);
     }
   };
-
 
   return { loading, logout };
 };

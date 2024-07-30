@@ -3,6 +3,7 @@ import { Josefin_Sans } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import ThemeProvider from "@/providers/theme-provider";
+import { AuthProvider } from "@/providers/auth-provider";
 
 const inter = Josefin_Sans({ subsets: ["latin"] });
 
@@ -19,9 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ThemeProvider>
-          {children}
-        </ThemeProvider>
+        {/* <AuthProvider> */}
+        <ThemeProvider>{children}</ThemeProvider>
+        {/* </AuthProvider> */}
         <Toaster position="top-right" />
       </body>
     </html>

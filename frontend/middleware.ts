@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { cookies } from "next/headers";
 
-// This function can be marked `async` if using `await` inside
 export const middleware = async (request: NextRequest) => {
   const cookie = cookies();
   const jwtToken = cookie.get("jwt")?.value;
@@ -11,7 +10,7 @@ export const middleware = async (request: NextRequest) => {
 
   if (!isAuthenticated) {
     // Auth failed redirect to home page
-    return NextResponse.redirect(new URL("/home", request.url));
+    return NextResponse.redirect(new URL("/sign-in", request.url));
   }
 
   return NextResponse.next();

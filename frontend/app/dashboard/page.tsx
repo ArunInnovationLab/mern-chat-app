@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from "react";
 import Picker, { EmojiClickData } from "emoji-picker-react";
 import useLogout from "@/hooks/useLogout";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/providers/auth-provider";
 
 // Define types for users and chats
 type User = {
@@ -83,9 +85,12 @@ const Dashboard = () => {
 
   const { loading, logout } = useLogout();
 
-  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
+  const router = useRouter();
 
-  useEffect(() => {}, []);
+  // const { isAuthenticated } = useAuth();
+
+
+  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
 
   const handleUserClick = (userId: number) => {
     const userChat = chats.find((chat) => chat.id === userId) || null;
