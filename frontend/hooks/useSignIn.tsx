@@ -30,6 +30,9 @@ const useSignIn = () => {
         }
       }
 
+      // localStorage.setItem("token", res.token);
+      localStorage.setItem("chat-user", JSON.stringify(res));
+
       toast.success("Signin successful!", { id: "signin_success" });
       router.push("/dashboard");
     } catch (error: any) {

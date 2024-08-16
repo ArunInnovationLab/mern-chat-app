@@ -38,6 +38,8 @@ export const sendMessage = async (req, res) => {
     // SOCKET IO FUNCTIONALITY WILL GO HERE
     const receiverSocketId = getReceiverSocketId(receiverId);
     if (receiverSocketId) {
+
+      console.log("receiver socker....", receiverSocketId)
       // io.to(<socket_id>).emit() used to send events to specific client
       io.to(receiverSocketId).emit("newMessage", newMessage);
     }

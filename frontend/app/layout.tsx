@@ -4,8 +4,9 @@ import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import ThemeProvider from "@/providers/theme-provider";
 import { AuthProvider } from "@/providers/auth-provider";
+import { SocketContextProvider } from "@/providers/socket-provider";
 
-const inter = Josefin_Sans({ subsets: ["latin"] });
+// const inter = Josefin_Sans({ subsets: ["latin-ext"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,9 +20,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body 
+      
+      // className={inter.className}
+      
+      >
         {/* <AuthProvider> */}
-        <ThemeProvider>{children}</ThemeProvider>
+
+        <ThemeProvider>
+          {" "}
+          <SocketContextProvider>{children}</SocketContextProvider>
+        </ThemeProvider>
         {/* </AuthProvider> */}
         <Toaster position="top-right" />
       </body>

@@ -21,6 +21,7 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "hooks/useLogout.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "hooks/useLogout.tsx", "hooks/useGetMessages.js",  "global.d.ts" 
+],
   "exclude": ["node_modules"]
 }

@@ -29,6 +29,8 @@ const useSignUp = () => {
           throw new Error(res.error);
         }
       }
+      
+      localStorage.setItem("chat-user", JSON.stringify(res));
 
       toast.success("Signup successful!", { id: "signup_success" });
       router.push("/dashboard");

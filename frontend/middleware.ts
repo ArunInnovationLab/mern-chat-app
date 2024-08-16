@@ -20,28 +20,28 @@ const checkAuthentication = async (jwtToken: any) => {
   const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
 
   try {
-    if (!jwtToken) {
-      console.error("JWT token not found in cookies");
-      return false;
-    }
+    // if (!jwtToken) {
+    //   console.error("JWT token not found in cookies");
+    //   return false;
+    // }
 
-    const response = await fetch(`${baseUrl}/api/auth/authuser`, {
-      method: "POST",
-      headers: {
-        Cookie: `jwt=${jwtToken};`,
-      },
-    });
+    // const response = await fetch(`${baseUrl}/api/auth/authuser`, {
+    //   method: "POST",
+    //   headers: {
+    //     Cookie: `jwt=${jwtToken};`,
+    //   },
+    // });
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch profile");
-    }
+    // if (!response.ok) {
+    //   throw new Error("Failed to fetch profile");
+    // }
 
-    const result = await response.json();
+    // const result = await response.json();
 
-    if (result?.error) {
-      console.error("Authentication error:", result.error);
-      return false;
-    }
+    // if (result?.error) {
+    //   console.error("Authentication error:", result.error);
+    //   return false;
+    // }
 
     return true;
   } catch (error: any) {

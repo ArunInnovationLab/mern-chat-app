@@ -24,6 +24,7 @@ const useLogout = () => {
       }
 
       // Clear user session from local storage or cookies
+      localStorage.removeItem("chat-user")
       localStorage.removeItem("token"); // Adjust based on your storage method
       // You might also need to clear cookies if you store the session in cookies
       document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
