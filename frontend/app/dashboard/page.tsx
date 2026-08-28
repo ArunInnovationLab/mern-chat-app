@@ -11,6 +11,7 @@ import useGetMessages from "@/hooks/useGetMessages";
 import toast from "react-hot-toast";
 import { useSocketContext } from "@/providers/socket-provider";
 import useListenMessages from "@/hooks/useListenMessages";
+import { Twirl as Hamburger, Twirl } from "hamburger-react";
 
 const Dashboard = () => {
   const [message, setMessage] = useState("");
@@ -31,10 +32,6 @@ const Dashboard = () => {
 
   const { onlineUsers } = useSocketContext();
 
-  useEffect(() => {
-    console.log("messages...", messages);
-  }, [selectedConversation, messages]);
-
   const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
 
   const handleEmojiClick = (emojiObject: EmojiClickData) => {
@@ -48,6 +45,23 @@ const Dashboard = () => {
 
     logout();
   };
+
+  function extractTime(dateString: any) {
+    const date = new Date(dateString);
+    let hours = date.getHours();
+    const minutes = padZero(date.getMinutes());
+    const ampm = hours >= 12 ? "PM" : "AM";
+
+    // Convert to 12-hour format
+    hours = hours % 12 || 12; // Handle midnight (0) and noon (12)
+
+    return `${hours}:${minutes} ${ampm}`;
+  }
+
+  // Helper function to pad single-digit numbers with a leading zero
+  function padZero(number: any) {
+    return number.toString().padStart(2, "0");
+  }
 
   const handleSendMessage = async () => {
     if (message.trim() === "" || !selectedConversation) return;
@@ -82,9 +96,148 @@ const Dashboard = () => {
   return (
     <div className="flex flex-col lg:flex-row h-screen">
       {/* Online Users Section */}
+      {/* <div className=""> */}
       <div className="lg:w-1/4 w-full bg-gray-100 border-b lg:border-r border-gray-300 p-4 overflow-y-auto lg:overflow-scroll">
-        <h2 className="text-xl font-semibold mb-4">Online Users</h2>
+        <div className="text-xl font-semibold  mb-4 flex justify-between items-center">
+          <div>Online Users</div>
+
+          <div>
+            <Twirl />
+          </div>
+        </div>
         <ul className="space-y-2">
+          {conversation?.map((user) => (
+            <li
+              key={user._id}
+              onClick={() => setSelectedConversation(user)}
+              className={`flex items-center p-2 rounded-md cursor-pointer ${
+                onlineUsers.includes(user?._id) ? "bg-green-100" : "bg-gray-200"
+              } hover:bg-green-300   ${
+                user._id === selectedConversation?._id ? "bg-green-300" : ""
+              }`}
+            >
+              <div className="w-10 h-10 bg-gray-400 rounded-full mr-3">
+                <Image
+                  className="w-10 h-10 rounded-full"
+                  alt=""
+                  src={user.profilePic}
+                  width={1000}
+                  height={1000}
+                />
+              </div>
+              <div>
+                <p className="font-medium">{user.fullName}</p>
+                <p
+                  className={`text-sm ${
+                    onlineUsers.includes(user?._id)
+                      ? "text-green-500"
+                      : "text-gray-500"
+                  }`}
+                >
+                  {onlineUsers.includes(user?._id) ? "Online" : "Offline"}
+                </p>
+              </div>
+            </li>
+          ))}
+          {conversation?.map((user) => (
+            <li
+              key={user._id}
+              onClick={() => setSelectedConversation(user)}
+              className={`flex items-center p-2 rounded-md cursor-pointer ${
+                onlineUsers.includes(user?._id) ? "bg-green-100" : "bg-gray-200"
+              } hover:bg-green-300   ${
+                user._id === selectedConversation?._id ? "bg-green-300" : ""
+              }`}
+            >
+              <div className="w-10 h-10 bg-gray-400 rounded-full mr-3">
+                <Image
+                  className="w-10 h-10 rounded-full"
+                  alt=""
+                  src={user.profilePic}
+                  width={1000}
+                  height={1000}
+                />
+              </div>
+              <div>
+                <p className="font-medium">{user.fullName}</p>
+                <p
+                  className={`text-sm ${
+                    onlineUsers.includes(user?._id)
+                      ? "text-green-500"
+                      : "text-gray-500"
+                  }`}
+                >
+                  {onlineUsers.includes(user?._id) ? "Online" : "Offline"}
+                </p>
+              </div>
+            </li>
+          ))}
+          {conversation?.map((user) => (
+            <li
+              key={user._id}
+              onClick={() => setSelectedConversation(user)}
+              className={`flex items-center p-2 rounded-md cursor-pointer ${
+                onlineUsers.includes(user?._id) ? "bg-green-100" : "bg-gray-200"
+              } hover:bg-green-300   ${
+                user._id === selectedConversation?._id ? "bg-green-300" : ""
+              }`}
+            >
+              <div className="w-10 h-10 bg-gray-400 rounded-full mr-3">
+                <Image
+                  className="w-10 h-10 rounded-full"
+                  alt=""
+                  src={user.profilePic}
+                  width={1000}
+                  height={1000}
+                />
+              </div>
+              <div>
+                <p className="font-medium">{user.fullName}</p>
+                <p
+                  className={`text-sm ${
+                    onlineUsers.includes(user?._id)
+                      ? "text-green-500"
+                      : "text-gray-500"
+                  }`}
+                >
+                  {onlineUsers.includes(user?._id) ? "Online" : "Offline"}
+                </p>
+              </div>
+            </li>
+          ))}
+          {conversation?.map((user) => (
+            <li
+              key={user._id}
+              onClick={() => setSelectedConversation(user)}
+              className={`flex items-center p-2 rounded-md cursor-pointer ${
+                onlineUsers.includes(user?._id) ? "bg-green-100" : "bg-gray-200"
+              } hover:bg-green-300   ${
+                user._id === selectedConversation?._id ? "bg-green-300" : ""
+              }`}
+            >
+              <div className="w-10 h-10 bg-gray-400 rounded-full mr-3">
+                <Image
+                  className="w-10 h-10 rounded-full"
+                  alt=""
+                  src={user.profilePic}
+                  width={1000}
+                  height={1000}
+                />
+              </div>
+              <div>
+                <p className="font-medium">{user.fullName}</p>
+                <p
+                  className={`text-sm ${
+                    onlineUsers.includes(user?._id)
+                      ? "text-green-500"
+                      : "text-gray-500"
+                  }`}
+                >
+                  {onlineUsers.includes(user?._id) ? "Online" : "Offline"}
+                </p>
+              </div>
+            </li>
+          ))}
           {conversation?.map((user) => (
             <li
               key={user._id}
@@ -120,10 +273,10 @@ const Dashboard = () => {
           ))}
         </ul>
       </div>
-      {/* <Conversations handleUserClick={handleUserClick} /> */}
 
+      {/* </div> */}
       {/* Chats Section */}
-      <div className="lg:w-3/4 w-full flex flex-col bg-white">
+      <div className="lg:w-3/4 max-lg:hidden w-full flex flex-col bg-white">
         <div className="flex justify-between items-center p-4">
           <h2 className="text-xl font-semibold mb-4">Chats</h2>
           <button
@@ -154,7 +307,92 @@ const Dashboard = () => {
                           : "bg-blue-500 shadow-lg"
                       }`}
                     >
-                      {msg.message}
+                      <div className="flex flex-col">
+                        <div>{msg.message}</div>
+                        <div className="opacity-90 text-[0.7rem] flex gap-1 items-center">
+                          {extractTime(msg.createdAt)}{" "}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-center pt-10">No messages yet.</p>
+            )}
+          </div>
+        </div>
+
+        {/* Chat Input */}
+        <div className="border-t border-gray-300 p-4">
+          <div className="relative flex items-center">
+            <button
+              onClick={() => setShowEmojiPicker((prev) => !prev)}
+              className="mr-2 bg-yellow-400 rounded-md px-4 py-2"
+            >
+              😀
+            </button>
+            <input
+              type="text"
+              className="w-full border border-gray-300 rounded-md p-2"
+              placeholder="Type a message..."
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            />
+
+            <button
+              onClick={handleSendMessage}
+              className="ml-2 bg-blue-600 hover:bg-blue-900 duration-300 text-white rounded-md px-4 py-2"
+            >
+              Send
+            </button>
+            {showEmojiPicker && (
+              <div className="absolute bottom-full left-0 shadow-xl">
+                <Picker onEmojiClick={handleEmojiClick} />
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Chats section mobile view */}
+      <div className="lg:w-3/4 inset-0 lg:hidden w-full flex flex-col bg-white">
+        <div className="flex justify-between items-center p-4">
+          <h2 className="text-xl font-semibold mb-4">Chats</h2>
+          <button
+            onClick={handleLogout}
+            disabled={loading}
+            className="bg-red-600 hover:bg-red-900 duration-300 text-white rounded-md px-4 py-2 disabled:opacity-50"
+          >
+            Logout
+          </button>
+        </div>
+        <div className="flex-grow p-4">
+          <div className="border border-gray-300 rounded-md bg-gray-50 overflow-y-auto h-[calc(100vh-15rem)]">
+            {messages.length > 0 ? (
+              <div className="space-y-2 p-2">
+                {messages.map((msg: any) => (
+                  <div
+                    key={msg._id}
+                    className={`flex ${
+                      msg.senderId === selectedConversation?._id
+                        ? "justify-start"
+                        : "justify-end"
+                    }`}
+                  >
+                    <div
+                      className={`max-w-xs p-2 rounded-md text-white ${
+                        msg.senderId === selectedConversation?._id
+                          ? "bg-green-500 shadow-md"
+                          : "bg-blue-500 shadow-lg"
+                      }`}
+                    >
+                      <div className="flex flex-col">
+                        <div>{msg.message}</div>
+                        <div className="opacity-90 text-[0.7rem] flex gap-1 items-center">
+                          {extractTime(msg.createdAt)}{" "}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ))}

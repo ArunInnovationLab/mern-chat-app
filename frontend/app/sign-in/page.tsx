@@ -1,21 +1,61 @@
 "use client";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import useSignIn from "../../hooks/useSignIn";
 import { ThemeContext } from "@/providers/theme-provider";
+import { useRouter } from "next/navigation";
 
 const SignIn = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { loading, signIn } = useSignIn();
 
+  const router = useRouter();
+  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
+
   const { theme, setTheme } = useContext(ThemeContext) as {
     theme: "light" | "dark";
     setTheme: React.Dispatch<React.SetStateAction<"light" | "dark">>;
   };
 
+  useEffect(() => {
+    const authUser = async () => {
+      try {
+        const response = await fetch(`${baseUrl}/api/auth/authuser`, {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+
+        const result = await response.json();
+
+        if (result?.error) {
+          // console.error("Authentication error:", result.error);
+          return false;
+        }
+
+        return true;
+      } catch (error: any) {
+        // toast.error(error.message, { id: "error" });
+        return false;
+      }
+    };
+
+    const authenticate = async () => {
+      const isAuthenticated = await authUser();
+
+      if (isAuthenticated) {
+        router.push("/dashboard");
+      }
+    };
+
+    authenticate();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
